@@ -47,8 +47,8 @@ def show_view(dra_path: str, mask_path: str, axis: str) -> str:
     image = Image.fromarray(image)
     image = image.convert('RGB')
     base = os.getcwd()
-    image.save(base + "/GUI/buffer.png")
-    image_base64 = image_to_data_url(base+"/GUI/buffer.png")
+    image.save(base + "/buffer.png")
+    image_base64 = image_to_data_url(base+"/buffer.png")
 
     return image_base64
 
