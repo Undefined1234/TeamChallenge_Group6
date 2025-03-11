@@ -1,0 +1,9 @@
+eel
+numpy
+PIL
+random
+base64
+matplotlib
+tkinter
+os
+nibabel
