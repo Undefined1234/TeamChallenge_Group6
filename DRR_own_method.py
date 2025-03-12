@@ -47,6 +47,7 @@ def generate_drr(volume,segmentation,aneurysm_neck_seg, angle=0, axis='z'):
     rotated_seg_int = np.round(rotated_seg).astype(np.int32)
     rotated_neck_int = np.round(rotated_neck).astype(np.int32)
     count_1 = np.sum((rotated_seg_int == 1) | (rotated_seg_int == 2), axis=2)
+    #count_1 = np.sum( (rotated_seg_int == 1), axis=2)
     count_2 = np.sum(rotated_seg_int == 2, axis=2)
     count_neck = np.sum(rotated_neck_int == 1, axis=2)
 
@@ -61,7 +62,7 @@ file_path_mask = folder_path + 'Corrected_segms\\' + patient_ID + '\\corrected_s
 volume, segmentation = load_nifti(file_path_3DRA, file_path_mask)
 aneurysm_neck_seg = extract_aneurysm_neck(segmentation)
 
-angle = 30  # HIER HOEK INVULLEN
+angle = 110  # HIER HOEK INVULLEN
 rotation_axis = 'y'  # HIER ROTATIE AS INVULLEN
 drr_image, count_1_img, count_2_img, count_neck = generate_drr(volume, segmentation, aneurysm_neck_seg, angle=angle, axis=rotation_axis)
 
