@@ -46,12 +46,25 @@ def generate_drr(volume,segmentation,aneurysm_neck_seg, angle=0, axis='z'):
 
     rotated_seg_int = np.round(rotated_seg).astype(np.int32)
     rotated_neck_int = np.round(rotated_neck).astype(np.int32)
-    count_1 = np.sum((rotated_seg_int == 1) | (rotated_seg_int == 2), axis=2)
-    #count_1 = np.sum( (rotated_seg_int == 1), axis=2)
+    #count_1 = np.sum((rotated_seg_int == 1) | (rotated_seg_int == 2), axis=2)
+    count_1 = np.sum( (rotated_seg_int == 1), axis=2)
     count_2 = np.sum(rotated_seg_int == 2, axis=2)
     count_neck = np.sum(rotated_neck_int == 1, axis=2)
 
     return drr_img, count_1, count_2, count_neck
+
+def calculate_visibility_score(count_aneurysm, count_vessel, count_neck):
+    blood_vessel_in_aneurysm = np.count_nonzero(count_vessel & count_aneurysm)
+    blood_vessel_in_neck = np.count_nonzero(count_vessel & count_neck)
+    
+    aneurysm_surface = np.count_nonzero(count_aneurysm)
+    neck_surface = np.count_nonzero(count_neck)
+    
+    aneurysm_visibility = aneurysm_surface / (blood_vessel_in_aneurysm if blood_vessel_in_aneurysm > 0 else 1)
+    neck_visibility = neck_surface / (blood_vessel_in_neck if blood_vessel_in_neck > 0 else 1)
+    
+    return aneurysm_visibility, neck_visibility
+
 
 #main
 folder_path = "C:\\Users\\20212150\\Documents\\Master\Year 1\\Team challenge\\Part 2\\Aneurysm_TC_data\\"
@@ -62,9 +75,13 @@ file_path_mask = folder_path + 'Corrected_segms\\' + patient_ID + '\\corrected_s
 volume, segmentation = load_nifti(file_path_3DRA, file_path_mask)
 aneurysm_neck_seg = extract_aneurysm_neck(segmentation)
 
-angle = 110  # HIER HOEK INVULLEN
+angle = 155  # HIER HOEK INVULLEN
 rotation_axis = 'y'  # HIER ROTATIE AS INVULLEN
-drr_image, count_1_img, count_2_img, count_neck = generate_drr(volume, segmentation, aneurysm_neck_seg, angle=angle, axis=rotation_axis)
+drr_image, count_vessel, count_aneurysm, count_neck = generate_drr(volume, segmentation, aneurysm_neck_seg, angle=angle, axis=rotation_axis)
+
+aneurysm_score, neck_score = calculate_visibility_score(count_aneurysm, count_vessel, count_neck)
+print(f"Aneurysm Visibility Score: {aneurysm_score:.4f}")
+print(f"Neck Visibility Score: {neck_score:.4f}")
 
 # drr_image = ((drr_image- drr_image.min()) * (1/(drr_image.max() - drr_image.min()) * 255)).astype('uint8')
 # plt.imshow(drr_image)
@@ -75,19 +92,19 @@ drr_image, count_1_img, count_2_img, count_neck = generate_drr(volume, segmentat
 
 
 # visualisaties
-count_1_norm = count_1_img / np.max(count_1_img) 
-count_2_norm = count_2_img / np.max(count_2_img) 
+count_1_norm = count_vessel / np.max(count_vessel) 
+count_2_norm = count_aneurysm/ np.max(count_aneurysm) 
 count_neck = count_neck / np.max(count_neck)
 
 count_1_norm[count_neck > 0] = 0
 count_2_norm[count_neck > 0] = 0
 
-combined_img = np.zeros((*count_1_img.shape, 3))
+combined_img = np.zeros((*count_vessel.shape, 3))
 combined_img[..., 0] = count_1_norm  
 combined_img[..., 2] = count_2_norm  
 combined_img[..., 1] = count_neck
 
-combined_img2 = np.zeros((*count_1_img.shape, 3))
+combined_img2 = np.zeros((*count_vessel.shape, 3))
 combined_img2[..., 0] = count_2_norm  
 combined_img2[..., 1] = count_neck
 
@@ -96,11 +113,11 @@ ax[0, 0].imshow(drr_image, cmap='gray')
 ax[0, 0].set_title(f"DRR of 3D angiography at {angle} degrees with respect to the {rotation_axis} direction", fontsize = 7)
 ax[0, 0].axis('off')
 
-ax[1, 1].imshow(count_1_img, cmap='gray')
+ax[1, 1].imshow(count_vessel, cmap='gray')
 ax[1, 1].set_title("DRR of vessel structure segmentation")
 ax[1, 1].axis('off')
 
-ax[1, 0].imshow(count_2_img, cmap='Blues', interpolation='nearest')
+ax[1, 0].imshow(count_aneurysm, cmap='Blues', interpolation='nearest')
 ax[1, 0].set_title("DRR of aneurysm segmentation")
 ax[1, 0].axis('off')
 
