@@ -1,7 +1,7 @@
 import eel 
 import os
 import numpy as np
-import DRR_own_method as drr
+import DRR_own_method_max as drr
 import random
 from random import randint
 import base64
