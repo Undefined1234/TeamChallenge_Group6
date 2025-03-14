@@ -1,9 +1,10 @@
 eel
 numpy
-PIL
+pillow
 random
 base64
 matplotlib
 tkinter
 os
 nibabel
+openpyxl
