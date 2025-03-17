@@ -4,6 +4,8 @@ PIL
 random
 base64
 matplotlib
+pandas
 tkinter
 os
 nibabel
+torch
