@@ -109,18 +109,20 @@
                 <div class="p-1">
                     <p>Transversal</p>
                     <img class="placeholder-gray-500 border" id="imagex" height="400px" width="400px">
-                    <input id="minmax-range" type="range" value="50" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 color-blue">
+                    <input id="slider1" type="range" value="50" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 color-blue" onchange="update_view(this, 'imagex', 'z')">
                 </div>
                 <div class="p-1">
                     <p>Coronal</p>
                     <img class="placeholder-gray-500 border"  id="imagey" height="400px" width="400px">
-                    <input id="minmax-range" type="range" value="50" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 color-blue">
+                    <input id="slider2" type="range" value="50" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 color-blue" onchange="update_view(this, 'imagey', 'x')">
 
                 </div>
                 <div class="p-1">
                     <p>Sagittal</p>
-                    <img class="placeholder-gray-500 border"  id="imagez" height="400px" width="400px">
-                    <input id="minmax-range" type="range" value="50" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 color-blue">
+                    <div id="sag_images">
+                      <img class="placeholder-gray-500 border"  id="imagez" height="400px" width="400px">
+                    </div>
+                    <input id="slider3" type="range" value="50" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 color-blue" onchange="update_view(this, 'imagez', 'y')">
 
                 </div>
             </div>

@@ -3,6 +3,7 @@
 *@author Constantijn Bok 
 */
 
+
 /**
  * This function will return for each view (transversal, longitudinal, sagittal) the compressed image from the 3D array. 
  * The images are parsed to HTML by use of the base64 conversion. 
@@ -21,17 +22,37 @@ async function show_view(){
     }
 
     append_log("Generating image x")
-    let image_x = await eel.show_view(dra_path, mask_path, "z")()
-    document.getElementById('imagex').src = image_x
+    // let image_x = await eel.show_view(dra_path, mask_path, "z")()
+    let datax = await eel.show_image(dra_path, "z")()
+    document.getElementById('imagex').src = datax.image
+    document.getElementById('slider1').max = (datax.shape-1)
     append_log("Finished generating image x")
     append_log("Generating image y")
-    let image_y = await eel.show_view(dra_path, mask_path, "z")()
-    document.getElementById('imagey').src = image_y
+    // let image_y = await eel.show_view(dra_path, mask_path, "z")()
+    let datay = await eel.show_image(dra_path, "x")()
+    document.getElementById('imagey').src = datay.image
+    document.getElementById('slider2').max = (datay.shape-1)
     append_log("Finished generating image y")
     append_log("Generating image z")
-    let image_z = await eel.show_view(dra_path, mask_path, "z")()
-    document.getElementById('imagez').src = image_z
-    append_log("Finished generating image z")
+    // let image_z = await eel.show_view(dra_path, mask_path, "z")()
+    let dataz = await eel.show_image(dra_path, "y")()
+    document.getElementById('imagez').src = dataz.image
+    document.getElementById('slider3').max = (dataz.shape-1)
+    append_log("Finished generating image z") 
+
+    append_log("Adjusting sliders")
+
+}
+
+async function update_view(self, id, axis){
+    let dra_path = document.getElementById('dra_path').innerHTML;
+    let value = self.value
+    if (dra_path.innerHTML != ""){
+        let image = await eel.show_image(dra_path,axis, value)()
+        document.getElementById(id).src = image.image
+    }
+
+    append_log(String(value))
 }
 
 async function start_process(){

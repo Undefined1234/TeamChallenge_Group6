@@ -9,6 +9,10 @@ import matplotlib as plt
 from tkinter.filedialog import askopenfilename
 import tkinter as tk
 from PIL import Image
+import nibabel as nib
+import cv2
+from io import BytesIO
+from ctypes import *
 
 dirname = os.path.dirname(__file__)
 
@@ -53,6 +57,27 @@ def show_view(dra_path: str, mask_path: str, axis: str) -> str:
 
     return image_base64
 
+@eel.expose
+def show_image(dra_path, axis="x", index=0):
+    image = nib.load(dra_path)
+    image = image.get_fdata()
+    index = int(index)
+    if (axis=="x"):
+        shape = image.shape[0]
+        image = image[index,:,:]
+        return {"image": array_to_data_url(image), "shape": shape}
+    if (axis=="y"):
+        shape = image.shape[1]
+        image = image[:,index,:]
+        return {"image": array_to_data_url(image), "shape": shape}
+    else:
+        shape = image.shape[2]
+        image = image[:,:,index]
+        return {"image": array_to_data_url(image), "shape": shape}
+    
+
+
+
 @eel.expose 
 def file_selector():
     window = tk.Tk()
@@ -69,6 +94,16 @@ def image_to_data_url(filename):
         img = f.read()
     return prefix + base64.b64encode(img).decode('utf-8')
 
+@eel.expose
+def array_to_data_url(image):
+    image = ((image- image.min()) * (1/(image.max() - image.min()) * 255)).astype('uint8')
+    image = Image.fromarray(image)
+    image = image.convert('RGB')
+    store = BytesIO()
+    image.save(store, format="png")
+    ext = "png"
+    prefix = f'data:image/{ext};base64,'
+    return prefix + base64.b64encode(store.getvalue()).decode('utf-8')
 
 
 eel.start('index.html', mode='edge', size=(1920,1080))
