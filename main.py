@@ -12,7 +12,8 @@ from PIL import Image
 
 dirname = os.path.dirname(__file__)
 
-eel.init(dirname+'/web')
+#eel.init(dirname+'/web')
+eel.init("web")
 
 @eel.expose
 def random_number():
@@ -52,14 +53,6 @@ def show_view(dra_path: str, mask_path: str, axis: str) -> str:
 
     return image_base64
 
-@eel.expose
-def image_to_data_url(filename):
-    ext = filename.split('.')[-1]
-    prefix = f'data:image/{ext};base64,'
-    with open(filename, 'rb') as f:
-        img = f.read()
-    return prefix + base64.b64encode(img).decode('utf-8')
-
 @eel.expose 
 def file_selector():
     window = tk.Tk()
@@ -68,5 +61,15 @@ def file_selector():
     filename = askopenfilename(parent=window, filetypes=[("Niftii","*.nii.gz")])
     return filename
 
-eel.start('index.html', mode='edge')
+@eel.expose
+def image_to_data_url(filename):
+    ext = filename.split('.')[-1]
+    prefix = f'data:image/{ext};base64,'
+    with open(filename, 'rb') as f:
+        img = f.read()
+    return prefix + base64.b64encode(img).decode('utf-8')
+
+
+
+eel.start('index.html', mode='edge', size=(1920,1080))
 

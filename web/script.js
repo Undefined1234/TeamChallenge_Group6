@@ -47,15 +47,19 @@ async function clear_log(){
 
 function append_log(text, color='black'){
     let log = document.getElementById('log')
-    let new_element = document.createElement('p')
+    let new_element = document.createElement('tr')
+    log.appendChild(new_element)
+    let new_new_element = document.createElement('th')
+
     var today = new Date();
 
-    new_element.innerHTML = today.getHours() +":"+today.getMinutes()+":"+today.getSeconds()+":"+today.getMilliseconds() + " - " + text
-    new_element.style.color = color
-    log.appendChild(new_element)
+    new_new_element.innerHTML = today.getHours() +":"+today.getMinutes()+":"+today.getSeconds()+":"+today.getMilliseconds() + " - " + text
+    new_new_element.style.color = color
+    new_element.appendChild(new_new_element)
+    
 }
 
 async function file_selector(id){
     let path = await eel.file_selector()()
-    document.getElementById(id).innerHTML = path 
+    document.getElementById(id).innerHTML = path;
 }
