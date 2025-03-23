@@ -47,12 +47,17 @@ async function show_view(){
 async function update_view(self, id, axis){
     let dra_path = document.getElementById('dra_path').innerHTML;
     let value = self.value
-    if (dra_path.innerHTML != ""){
+    if (dra_path != ""){
         let image = await eel.show_image(dra_path,axis, value)()
         document.getElementById(id).src = image.image
+        append_log(String(value))
     }
+    else{
+        append_log("No image loaded", "red")
+    }
+        
 
-    append_log(String(value))
+    
 }
 
 async function start_process(){
