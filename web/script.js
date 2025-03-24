@@ -4,6 +4,7 @@
 */
 
 
+
 /**
  * This function will return for each view (transversal, longitudinal, sagittal) the compressed image from the 3D array. 
  * The images are parsed to HTML by use of the base64 conversion. 
@@ -46,7 +47,7 @@ async function show_view(){
 
 async function update_view(self, id, axis){
     let dra_path = document.getElementById('dra_path').innerHTML;
-    let value = self.value
+    let value = self.target.value
     if (dra_path != ""){
         let image = await eel.show_image(dra_path,axis, value)()
         document.getElementById(id).src = image.image
@@ -85,7 +86,27 @@ function append_log(text, color='black'){
     
 }
 
-async function file_selector(id){
+async function file_selector(self, id){
     let path = await eel.file_selector()()
     document.getElementById(id).innerHTML = path;
+    if (path != ""){
+        self.style.background = 'green'
+        append_log("The following path was found and loaded: "+path)
+    }
 }
+
+const sl1 = document.getElementById("slider1")
+sl1.addEventListener('click', (evt) => {
+    update_view(evt, "imagex", "z")
+    
+})
+const sl2 = document.getElementById("slider2")
+sl2.addEventListener('click', (evt) => {
+    update_view(evt, "imagey", "x")
+    
+})
+const sl3 = document.getElementById("slider3")
+sl3.addEventListener('click', (evt) => {
+    update_view(evt, "imagez", "y")
+    
+})

@@ -100,10 +100,12 @@ def array_to_data_url(image):
     image = Image.fromarray(image)
     image = image.convert('RGB')
     store = BytesIO()
-    image.save(store, format="png")
-    ext = "png"
+    image.save(store, format="jpeg")
+    ext = "jpeg"
     prefix = f'data:image/{ext};base64,'
-    return prefix + base64.b64encode(store.getvalue()).decode('utf-8')
+    bytesimage = store.getvalue()
+    image.close()
+    return prefix + base64.b64encode(bytesimage).decode('utf-8')
 
 
 eel.start('index.html', mode='edge', size=(1920,1080))
