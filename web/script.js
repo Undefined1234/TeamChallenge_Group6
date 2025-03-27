@@ -108,6 +108,19 @@ eel.expose(getangle)
 function getangle(){
     return document.getElementById("angle").value
 }
+eel.expose(setimage)
+function setimage(base64encoding, id){
+    document.getElementById(id).src = base64encoding
+}
+eel.expose(setinnerHTML)
+function setinnerHTML(text, id){
+    document.getElementById(id).innerHTML = text
+}
+eel.expose(setprogress)
+function setprogress(value){
+    document.getElementById("progress").innerHTML = value
+    document.getElementById("progress").value = parseFloat(value)
+}
 
 async function file_selector(self, id, parameters=false){
     let path

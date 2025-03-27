@@ -14,6 +14,7 @@ import cv2
 from io import BytesIO
 from ctypes import *
 import DRR
+import model
 
 dirname = os.path.dirname(__file__)
 
@@ -92,7 +93,7 @@ def file_selector(parameters:bool=False):
     return filename
 
 @eel.expose
-def image_to_data_url(filename):
+def image_to_data_url(filename: str):
     ext = filename.split('.')[-1]
     prefix = f'data:image/{ext};base64,'
     with open(filename, 'rb') as f:
@@ -127,7 +128,28 @@ def start_process():
     eel.append_log("Compressing 3DRA images to 2D images", "black", True)
     DRR.create_compressed_images(angle_increment=angle_increment, dra_path=dra_path)
     eel.append_log("Starting ML model", "black", True)
+    dataset = model.load_dataset()
+    device = model.start_device()
+    estimations = model.load_model(parameter_path, device, dataset)
 
+    values, path = zip(*estimations)
+    print(values)
+    max_value = max(values)
+    l = 0
+    i=0
+    top_three = []
+    while(l<3 and i<len(estimations)):
+        value, name = estimations[i]
+        if value == max_value:
+            top_three.append(name)
+            l=l+1
+        i=i+1
+    print(top_three)
+    for idx, image in enumerate(top_three):
+        base64encoding = image_to_data_url("buffer/"+image)
+        eel.setimage(base64encoding, "image"+str(idx+1))
+        eel.setinnerHTML(image, "text"+str(idx+1))
+    eel.append_log("Finished", "black", True)
 
 eel.start('index.html', mode='edge', size=(1920,1080))
 

@@ -2,12 +2,14 @@ import pandas as pd
 import torch 
 import numpy as np
 import torch.nn as nn
+import torch.utils.data.dataloader
 from torchsummary import summary
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from datetime import datetime
 import neptune
 import eel
+import os
 
 from torchvision.io import read_image
 from torchvision.transforms.functional import to_tensor
@@ -50,7 +52,7 @@ class Block(nn.Module):
     
     
 class CustomImageDataset(torch.utils.data.Dataset):
-    def __init__(self, data):
+    def __init__(self, data:pd.DataFrame):
         self.img_labels = data
         self.img_labels['fullpath'] = DATA_PATH+"DRR_images/"+self.img_labels['DRR filename']+".png"
         self.img_dir = DATA_PATH+"DRR_images"
@@ -66,21 +68,50 @@ class CustomImageDataset(torch.utils.data.Dataset):
         label = self.img_labels.iloc[idx]["score_classified"]
         return image, label
     
-class CustomTestSet(torch.utils.data.Dataset):
-    def __init__(self, path)
-        
+class TestImageDataset(torch.utils.data.Dataset):
+    def __init__(self, path:str):
+        self.path = path
+        self.images = os.listdir(path)
+        self.transform = None
+        self.target_transform = None
+    def __len__(self):
+        return len(self.images)
+    def __getitem__(self, index):
+        image = read_image(self.path+"/"+self.images[index])
+        image = image.type(torch.FloatTensor)
+        name = self.images[index]
+        label = 0
+        return image, label, name
+
 
 def start_device() -> torch.device:
     if (torch.cuda.is_available()):
-        eel.appendlog("CUDA device was found", "black", True)
+        eel.append_log("CUDA device was found", "black", True)
         return torch.device("cuda")
     else:
-        eel.appendlog("No CUDA device found, running on CPU", "black", True)
+        eel.append_log("No CUDA device found, running on CPU", "black", True)
 
-def load_model(parameter_path:str, device:torch.device) -> torch.nn.Module:
+def load_dataset() -> torch.utils.data.Dataset:
+    dataset = TestImageDataset("buffer/")
+    return dataset
+
+def load_model(parameter_path:str, device:torch.device, dataset:torch.utils.data.Dataset) -> list:
     model = Block()
+    dataset = torch.utils.data.DataLoader(dataset, batch_size=dataset.__len__())
+    model.to(device)
     try:
         model.load_state_dict(torch.load(parameter_path))
     except: 
-        eel.appendlog("Could not properly load parameters into model, aborting process", "black", True)
+        eel.append_log("Could not properly load parameters into model, aborting process", "black", True)
         raise 
+    with torch.no_grad():
+        scores = []
+        model.eval()
+        eel.append_log("Parsing images through model...", "black", True)
+        for images, label, name in dataset:
+            estimations = model(images.to(device))
+            _, predicted = torch.max(estimations,1)
+            for predictions, name in zip(predicted.detach().cpu(), name):
+                scores.append((int(predictions.detach().cpu()), name))
+    eel.append_log("Extracting output", "black", True)
+    return scores

@@ -67,10 +67,19 @@ def create_compressed_images(angle_increment, dra_path):
     i = 1
     for alpha_ in alpha:
         for theta_ in theta:
-            compressed_image = generate_drr(volume, alpha_, theta_)
+            drr_img = generate_drr(volume, alpha_, theta_)
             image_name = "IMAGE_X"+str(alpha_)+"_Y"+str(theta_)+".png"
-            plt.imsave("buffer/"+image_name, compressed_image, cmap="gray")
-            eel.append_log(str(i)+"/"+str(len(alpha)*len(theta)), "black", True)
+            # drr_img = np.nan_to_num(drr_img, nan=0, posinf=0, neginf=0)
+            # drr_img = np.maximum(drr_img, 0)
+            drr_img = 255*(drr_img-np.min(drr_img))/(np.max(drr_img)-np.min(drr_img))
+            # drr_img = np.clip(drr_img, 0, 255)
+            drr_img_uint8 = drr_img.astype(np.uint8)
+
+            # drr_img_uint8 = np.uint8(drr_img/np.max(drr_img) * 255)
+            im = Image.fromarray(drr_img_uint8)
+            im.save("buffer/"+image_name)
+            #eel.append_log(str(i)+"/"+str(len(alpha)*len(theta)), "black", True)
+            eel.setprogress(str(i/(len(alpha)*len(theta))*100))
             i=i+1
     eel.append_log("Images compressed and stored in buffer folder", "black", True)
 

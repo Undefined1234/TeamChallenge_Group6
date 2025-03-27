@@ -99,8 +99,10 @@
                     </button>
                 </div>
             </div>
-            <div>
+            <div class="p-2">
                 ESTIMATED TIME
+                <br>
+                <progress id="progress" value="0" max="100"> 32% </progress>
             </div>
         </div>
 
@@ -127,7 +129,25 @@
                 </div>
             </div>
             <div>
-                OUTPUT
+              <div class="grid grid-cols-3 p-2">
+                <div class="p-1">
+                    <p>Best image</p>
+                    <img class="placeholder-gray-500 border" id="image1" height="400px" width="400px">
+                    <p id="text1"></p>
+                </div>
+                <div class="p-1">
+                    <p>Second best image</p>
+                    <img class="placeholder-gray-500 border"  id="image2" height="400px" width="400px">
+                    <p id="text2"></p>
+                </div>
+                <div class="p-1">
+                    <p>Thirth best image</p>
+                    <div id="sag_images">
+                      <img class="placeholder-gray-500 border"  id="image3" height="400px" width="400px">
+                      <p id="text3"></p>
+                    </div>
+                </div>
+            </div>
             </div>
         </div>
         <div class=" border-t-4 p-2">
