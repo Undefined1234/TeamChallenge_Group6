@@ -132,19 +132,16 @@ def start_process():
     device = model.start_device()
     estimations = model.load_model(parameter_path, device, dataset)
 
-    values, path = zip(*estimations)
-    print(values)
-    max_value = max(values)
-    l = 0
-    i=0
-    top_three = []
-    while(l<3 and i<len(estimations)):
-        value, name = estimations[i]
-        if value == max_value:
-            top_three.append(name)
-            l=l+1
-        i=i+1
-    print(top_three)
+
+    estimations.sort(key=lambda tup: tup[0], reverse=True)
+
+    value, top_two = zip(*estimations[0:2])
+    value, worst = estimations[-1]
+
+    top_two = list(top_two)
+    top_two.append(worst)
+    top_three = top_two
+
     for idx, image in enumerate(top_three):
         base64encoding = image_to_data_url("buffer/"+image)
         eel.setimage(base64encoding, "image"+str(idx+1))

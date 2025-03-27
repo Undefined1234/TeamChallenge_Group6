@@ -37,8 +37,7 @@ def generate_drr(volume,  alpha=0, theta=0):
     R, shift = get_rotation_matrix(alpha, theta, volume.shape)
 
     # Apply affine transform for rotation
-    rotated_vol = scipy.ndimage.affine_transform(volume, R, order=1)
-
+    rotated_vol = scipy.ndimage.affine_transform(volume, R, offset=shift, order=1)
     # Generate DRR by averaging over depth
     drr_img = np.mean(rotated_vol, axis=2)
 
