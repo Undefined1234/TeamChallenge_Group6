@@ -15,10 +15,9 @@
 async function show_view(){
     
     let dra_path = document.getElementById('dra_path').innerHTML;
-    let mask_path = document.getElementById('mask_path').innerHTML;
 
-    if (dra_path == "" || mask_path == ""){
-        append_log("Either one of the paths was not given, please make sure botht the 3DRA and MASK path are given", 'red')
+    if (dra_path == ""){
+        append_log("No DRA file was given, please select a DRA file first", 'red')
         return 
     }
 
@@ -62,7 +61,19 @@ async function update_view(self, id, axis){
 }
 
 async function start_process(){
-    append_log("This function has not yet been impemented")
+    if (document.getElementById("dra_path").innerHTML == "" & document.getElementById("model_parameters").innerHTML == ""){
+        append_log("Both the parameter file and DRA file are missing, please add them first", 'red')
+        return
+    }
+    if (document.getElementById("model_parameters").innerHTML == ""){
+        append_log("No parameter file was given, please add a parameter file first", "red")
+        return
+    }
+    if (document.getElementById("dra_path").innerHTML == ""){
+        append_log("No DRA file was given, please select a DRA file first", 'red')
+    }
+
+    await eel.start_process()()
 }
 
 async function clear_log(){
@@ -72,23 +83,43 @@ async function clear_log(){
     }
 }
 
-function append_log(text, color='black'){
+eel.expose(append_log)
+function append_log(text, color='black', python=false){
     let log = document.getElementById('log')
     let new_element = document.createElement('tr')
     log.appendChild(new_element)
     let new_new_element = document.createElement('th')
 
     var today = new Date();
-
+    if (python){
+        text = "Python Message: "+text
+    }
     new_new_element.innerHTML = today.getHours() +":"+today.getMinutes()+":"+today.getSeconds()+":"+today.getMilliseconds() + " - " + text
     new_new_element.style.color = color
     new_element.appendChild(new_new_element)
     
 }
 
-async function file_selector(self, id){
-    let path = await eel.file_selector()()
+eel.expose(getinnerHTML)
+function getinnerHTML(id){
+    return document.getElementById(id).innerHTML
+}
+eel.expose(getangle)
+function getangle(){
+    return document.getElementById("angle").value
+}
+
+async function file_selector(self, id, parameters=false){
+    let path
+    if (parameters==true) {
+        path = await eel.file_selector(parameters)()
+    }
+    else {
+        path = await eel.file_selector()()
+    }
+    
     document.getElementById(id).innerHTML = path;
+
     if (path != ""){
         self.style.background = 'green'
         append_log("The following path was found and loaded: "+path)

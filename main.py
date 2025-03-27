@@ -13,6 +13,7 @@ import nibabel as nib
 import cv2
 from io import BytesIO
 from ctypes import *
+import DRR
 
 dirname = os.path.dirname(__file__)
 
@@ -79,11 +80,15 @@ def show_image(dra_path, axis="x", index=0):
 
 
 @eel.expose 
-def file_selector():
+def file_selector(parameters:bool=False):
     window = tk.Tk()
     window.wm_attributes('-topmost', 1)
     window.withdraw()
-    filename = askopenfilename(parent=window, filetypes=[("Niftii","*.nii.gz")])
+    if parameters:
+        filetype = [("Parameter file", "*.pth")]
+    else:
+        filetype= [("Niftii", "*.nii.gz")]
+    filename = askopenfilename(parent=window, filetypes=filetype)
     return filename
 
 @eel.expose
@@ -106,6 +111,22 @@ def array_to_data_url(image):
     bytesimage = store.getvalue()
     image.close()
     return prefix + base64.b64encode(bytesimage).decode('utf-8')
+
+
+@eel.expose
+def start_process():
+    #Starting with sanity checks
+    if (eel.getinnerHTML("dra_path") == "" or eel.getinnerHTML("model_parameters") == ""):
+        eel.append_log("Could not find paths", "red", True)
+        return
+    angle_increment = int(eel.getangle()())
+    print(angle_increment)
+    dra_path = eel.getinnerHTML("dra_path")()
+    parameter_path = eel.getinnerHTML("model_parameters")()
+
+    eel.append_log("Compressing 3DRA images to 2D images", "black", True)
+    DRR.create_compressed_images(angle_increment=angle_increment, dra_path=dra_path)
+    eel.append_log("Starting ML model", "black", True)
 
 
 eel.start('index.html', mode='edge', size=(1920,1080))

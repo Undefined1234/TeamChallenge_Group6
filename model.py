@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from datetime import datetime
 import neptune
+import eel
 
 from torchvision.io import read_image
 from torchvision.transforms.functional import to_tensor
@@ -64,3 +65,22 @@ class CustomImageDataset(torch.utils.data.Dataset):
         image = image.type(torch.FloatTensor)
         label = self.img_labels.iloc[idx]["score_classified"]
         return image, label
+    
+class CustomTestSet(torch.utils.data.Dataset):
+    def __init__(self, path)
+        
+
+def start_device() -> torch.device:
+    if (torch.cuda.is_available()):
+        eel.appendlog("CUDA device was found", "black", True)
+        return torch.device("cuda")
+    else:
+        eel.appendlog("No CUDA device found, running on CPU", "black", True)
+
+def load_model(parameter_path:str, device:torch.device) -> torch.nn.Module:
+    model = Block()
+    try:
+        model.load_state_dict(torch.load(parameter_path))
+    except: 
+        eel.appendlog("Could not properly load parameters into model, aborting process", "black", True)
+        raise 

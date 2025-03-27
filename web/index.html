@@ -79,13 +79,13 @@
 
                 </div>
                 <div>
-                    <p>Select MASK file:</p>
-                    <button class="bg-transparent hover:bg-blue-500 text-white-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" onclick="file_selector(this, 'mask_path')">Select file</button>
-                    <p style="visibility: hidden; overflow: hidden; display: none;" id="mask_path"></p>
+                    <p>Select Model parameters:</p>
+                    <button class="bg-transparent hover:bg-blue-500 text-white-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" onclick="file_selector(this, 'model_parameters', true)">Select file</button>
+                    <p style="visibility: hidden; overflow: hidden; display: none;" id="model_parameters"></p>
                 </div>
                 <div>
                     <p>Angle increment</p>
-                    <input class="color-gray text-black" type="number", value="30">
+                    <input class="color-gray text-black" type="number" id="angle" value="30">
                 </div>
                 <div>
                     <button class="bg-transparent hover:bg-blue-500 text-white-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded self-end" onclick="show_view()"">
