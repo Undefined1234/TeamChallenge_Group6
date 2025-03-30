@@ -40,6 +40,10 @@ def generate_drr(volume,  alpha=0, theta=0):
     rotated_vol = scipy.ndimage.affine_transform(volume, R, offset=shift, order=1)
     # Generate DRR by averaging over depth
     drr_img = np.mean(rotated_vol, axis=2)
+    minval = np.percentile(drr_img, 3)
+    maxval = np.percentile(drr_img, 100)
+    drr_img = np.clip(drr_img, minval, maxval)
+    drr_img = 255*(drr_img-minval)/(maxval-minval)
 
 
     return drr_img
