@@ -1,7 +1,7 @@
 
 > [!Caution]
 > This tool is for demonstration purposes only. Please do not use this tool for actual angle estimation.
-# TeamChallenge_Group6
+# C-arm Estimation Tool for Intracranial Aneurysm Treatment 
 > [!Note]
 > For this tool you will need [Edge Explorer](https://www.microsoft.com/nl-nl/edge/download?form=MA13FJ) on your device
 
