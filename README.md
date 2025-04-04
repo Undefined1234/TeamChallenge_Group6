@@ -1,7 +1,7 @@
 
 > [!Caution]
 > This tool is for demonstration purposes only. Please do not use this tool for actual angle estimation.
-# C-arm Estimation Tool for Intracranial Aneurysm Treatment 
+# C-arm Angle Estimation Tool for Intracranial Aneurysm Treatment 
 
 Repository containing the Aneurysma Angle Estimation (AAE) GUI. This tool runs HTML in the front-end and uses python in the backend. Javascript is being used as translation language between HTML and python. 
 
