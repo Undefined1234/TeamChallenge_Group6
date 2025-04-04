@@ -15,7 +15,7 @@ The AAE tool uses 3DRA images to approximate the best angle under which the C-ar
 ```
 pip install -r requirements.txt
 ```
-By just running the [main.py](main.py) file a GUI should start in Edge explorer. Please note that Edge must be installed on your device in order to run the GUI. 
+By just running the [`main.py`](main.py) file a GUI should start in Edge explorer. Please note that Edge must be installed on your device in order to run the GUI. 
 
 ## GUI
 This GUI consists out of a backend and frontend part. The frontend relies on javascript and html and the backend relies on python. In order to preview the 3DRA files a file can be chosen in the input section of the tool. In order to perform angle estimations both a parameter file and the 3DRA file should be included in the left-top corner of the tools. 
