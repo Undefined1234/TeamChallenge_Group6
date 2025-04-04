@@ -1,4 +1,7 @@
 # TeamChallenge_Group6
+![Static Badge](https://img.shields.io/badge/:badgeContent)
+
+
 Repository containing the Aneurysma Angle Estimation (AAE) GUI. This tool runs HTML in the front-end and uses python in the backend. Javascript is being used as translation language between HTML and python. 
 
 The AAE tool uses 3DRA images to approximate the best angle under which the C-arm should be placed to obtain a 2D image that maps the aneurysm. 
