@@ -1,5 +1,5 @@
 # TeamChallenge_Group6
-![](https://img.shields.io/badge/Code-React-informational?style=flat&logo=react&color=61DAFB)
+[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=deepajarout&layout=compact)](https://github.com/deepajarout)
 
 
 
