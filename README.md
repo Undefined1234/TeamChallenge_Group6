@@ -1,6 +1,6 @@
 # TeamChallenge_Group6
 [!Note]
-For this tool you will need [Edge Explorer](https://www.microsoft.com/nl-nl/edge/download?form=MA13FJ) on your device
+(For this tool you will need [Edge Explorer](https://www.microsoft.com/nl-nl/edge/download?form=MA13FJ) on your device)
 
 Repository containing the Aneurysma Angle Estimation (AAE) GUI. This tool runs HTML in the front-end and uses python in the backend. Javascript is being used as translation language between HTML and python. 
 
