@@ -1,5 +1,5 @@
 # TeamChallenge_Group6
-[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=Undefined1234&layout=compact)](https://github.com/deepajarout)
+[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=Undefined1234&layout=compact)](https://github.com/TeamChallenge_Group6)
 
 
 
