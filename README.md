@@ -1,5 +1,5 @@
 # TeamChallenge_Group6
-<img alt="Static Badge" src="https://img.shields.io/badge/:badgeContent">
+![](https://img.shields.io/badge/Code-React-informational?style=flat&logo=react&color=61DAFB)
 
 
 
