@@ -2,14 +2,15 @@
 > [!Caution]
 > This tool is for demonstration purposes only. Please do not use this tool for actual angle estimation.
 # C-arm Estimation Tool for Intracranial Aneurysm Treatment 
-> [!Note]
-> For this tool you will need [Edge Explorer](https://www.microsoft.com/nl-nl/edge/download?form=MA13FJ) on your device
 
 Repository containing the Aneurysma Angle Estimation (AAE) GUI. This tool runs HTML in the front-end and uses python in the backend. Javascript is being used as translation language between HTML and python. 
 
 The AAE tool uses 3DRA images to approximate the best angle under which the C-arm should be placed to obtain a 2D image that maps the aneurysm. 
 
 ## Installation
+> [!Note]
+> For this tool you will need [Edge Explorer](https://www.microsoft.com/nl-nl/edge/download?form=MA13FJ) on your device.
+
 1) Create a virtual environment 
 2) Open terminal and CD into this directory 
 3) Run the following code and make sure the virtual environment is selected: pip install -r requirements.txt
