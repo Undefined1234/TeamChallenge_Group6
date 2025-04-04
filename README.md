@@ -2,6 +2,9 @@
 > [!Note]
 > For this tool you will need [Edge Explorer](https://www.microsoft.com/nl-nl/edge/download?form=MA13FJ) on your device
 
+> [!Caution]
+> This tool is for demonstration purposes only. Please do not use this tool for actual angle estimation.
+
 Repository containing the Aneurysma Angle Estimation (AAE) GUI. This tool runs HTML in the front-end and uses python in the backend. Javascript is being used as translation language between HTML and python. 
 
 The AAE tool uses 3DRA images to approximate the best angle under which the C-arm should be placed to obtain a 2D image that maps the aneurysm. 
@@ -25,5 +28,4 @@ This GUI is also CUDA compatable. In order for CUDA to work properly please inst
 
 ## Troubleshooting
 
-> [!Caution]
-> This tool is for demonstration purposes only. Please do not use this tool for actual angle estimation.
+
