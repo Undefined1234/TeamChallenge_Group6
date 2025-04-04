@@ -1,7 +1,4 @@
 # TeamChallenge_Group6
-[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=Undefined1234&layout=compact)](https://github.com/TeamChallenge_Group6)
-
-
 
 Repository containing the Aneurysma Angle Estimation (AAE) GUI. This tool runs HTML in the front-end and uses python in the backend. Javascript is being used as translation language between HTML and python. 
 
@@ -12,6 +9,10 @@ The AAE tool uses 3DRA images to approximate the best angle under which the C-ar
 2) Open terminal and CD into this directory 
 3) Run the following code and make sure the virtual environment is selected: pip install -r requirements.txt
 4) run main.py
+
+```
+pip install -r requirements.txt
+```
 
 ## GUI
 This GUI consists out of a backend and frontend part. The frontend relies on javascript and html and the backend relies on python. In order to preview the 3DRA files a file can be chosen in the input section of the tool. In order to perform angle estimations both a parameter file and the 3DRA file should be included in the left-top corner of the tools. 
