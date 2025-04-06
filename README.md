@@ -13,12 +13,13 @@ The AAE tool uses 3DRA images to approximate the best angle under which the C-ar
 
 1) Create a virtual environment 
 2) Open terminal and CD into this directory 
-3) Run the following code and make sure the virtual environment is selected: pip install -r requirements.txt
-4) run main.py
-
+3) Run the following code and make sure the virtual environment is selected: 
 ```
 pip install -r requirements.txt
 ```
+4) run main.py
+
+
 By just running the [`main.py`](main.py) file a GUI should start in Edge explorer. Please note that Edge must be installed on your device in order to run the GUI. 
 
 ## GUI
@@ -28,5 +29,6 @@ This GUI consists out of a backend and frontend part. The frontend relies on jav
 This GUI is also CUDA compatable. In order for CUDA to work properly please install the correct version of [torch](https://pytorch.org/get-started/locally/). Upon running the angle estimation the GUI will tell if a CUDA device was found. If nu CUDA device could be found the estimation will be performed on CPU. 
 
 ## Troubleshooting
+**CUDA not found:** Most likely the correct pytorch version was not installed. Please make sure the virtual environment contains the correct pytorch version. 
 
-
+**GUI not starting after running:** Please check if Edge Explorer was installed on your device. 

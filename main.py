@@ -141,6 +141,13 @@ def start_process():
     top_two = list(top_two)
     top_two.append(worst)
     top_three = top_two
+    try:
+        theta = top_two[0].split("X")[1].split("_")[0]
+        gamma = top_two[0].split("Y")[1].split(".")[0]
+        eel.setinnerHTML("Optimal angle theta: "+str(theta), "optimal_theta")
+        eel.setinnerHTML("Optimal angle gamma: "+str(gamma), "optimal_gamma")
+    except: 
+        eel.append_log("Printing angles was not possible", "red", True)
 
     for idx, image in enumerate(top_three):
         base64encoding = image_to_data_url("buffer/"+image)

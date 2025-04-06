@@ -118,8 +118,8 @@ function setinnerHTML(text, id){
 }
 eel.expose(setprogress)
 function setprogress(value){
-    document.getElementById("progress").innerHTML = value
-    document.getElementById("progress").value = parseFloat(value)
+    //document.getElementById("progress").innerHTML = value
+    document.getElementById("progress").style.width = value+"%"
 }
 
 async function file_selector(self, id, parameters=false){
